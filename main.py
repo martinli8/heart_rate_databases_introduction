@@ -1,8 +1,9 @@
 from pymodm import connect
 import models
 import datetime
-from pymodm import MongoModel,fields
+from pymodm import MongoModel, fields
 connect("mongodb://localhost:27017/heart_rate_app")  # open up connection to db
+
 
 def add_heart_rate(email, heart_rate, time):
     """
@@ -14,7 +15,8 @@ def add_heart_rate(email, heart_rate, time):
     """
     user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
     user.heart_rate.append(heart_rate)  # Append the heart_rate to the user's list of heart rates
-    user.heart_rate_times.append(time)  # append the current time to the user's list of heart rate times
+    # append the current time to the user's list of heart rate times
+    user.heart_rate_times.append(time)
     user.save()  # save the user to the database
 
 
@@ -52,11 +54,35 @@ def print_user(email):
     print(user.heart_rate)
     print(user.heart_rate_times)
     userData = {
-    "All heart rate measurements": user.heart_rate,
-    # "heart_rate_times": user.heart_rate_times
+        "All heart rate measurements": user.heart_rate,
+        "heart_rate_times": user.heart_rate_times
     }
     return userData
+
+
+def average_HR_Calc(email):
+    import statistics as s
+    user = models.User.objects.raw({"_id": email}).first()
+    hrList = user.heart_rate
+    print(s.mean(hrList))
+    return s.mean(hrList)
+
+def interval_HR_calc(email,time):
+    user = models.User.objects.raw({"_id": email}).first()
+    hrTimeList = user.heart_rate_times
+    hrList = user.heart_rate
+    timeToCompare = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
+    timeIdx = next(idx for idx, value in enumerate(hrTimeList) if timeToCompare < value)
+    relevantHrList = hrList[timeIdx:]
+    import statistics as s
+    return s.mean(relevantHrList)
+#     "user_email": "",
+#     "heart_rate_average_since": "2018-03-09 11:00:36.372339" // date string
+# }
+
+
 if __name__ == "__main__":
-    create_user(email="suyash@suyashkumar.com", age=24, heart_rate=60, time=datetime.datetime.now())  # we should only do this once, otherwise will overwrite existing user
+    # we should only do this once, otherwise will overwrite existing user
+    create_user(email="suyash@suyashkumar.com", age=24, heart_rate=60, time=datetime.datetime.now())
     add_heart_rate("suyash@suyashkumar.com", 60, datetime.datetime.now())
     print_user("suyash@suyashkumar.com")
