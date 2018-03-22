@@ -8,10 +8,21 @@ app = Flask(__name__)
 @app.route("/api/heart_rate", methods=["POST"])
 def userCreation():
     r = request.get_json()
+    try:
+        user_email = r["user_email"]
+        user_age = r["user_age"]
+        heart_rate = r["heart_rate"]
+    except:
+        return 'Input data error! Make sure you have the correct fields'
 
-    user_email = r["user_email"]
-    user_age = r["user_age"]
-    heart_rate = r["heart_rate"]
+    if not isinstance(user_email,str):
+        return "Email input is not a string"
+
+    if not isinstance(user_age,int):
+        return "User age is not an int"
+
+    if heart_rate is str:
+        return "Heart rate is a str! Please input a numerical"
 
     try:
         add_heart_rate(user_email, heart_rate, time=datetime.datetime.now())
@@ -41,9 +52,19 @@ def averageHR(user_email):
 def interval_average():
     r = request.get_json()
 
-    user_email = r["user_email"]
-    time = r["heart_rate_average_since"]
+    try:
+        user_email = r["user_email"]
+        time = r["heart_rate_average_since"]
+    except:
+        return 'Input data error! Make sure you have the correct fields'
 
+    if not isinstance(user_email,str):
+        return "Email input is not a string"
+
+    try:
+        datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
+    except:
+        return "invalid input time format!"
     try:
         hrAvg = interval_HR_calc(user_email, time)
         tachycardiaStatus = check_tachycardia(user_email, hrAvg)
@@ -55,4 +76,4 @@ def interval_average():
     except:
         print("No user exists or no data points after that time!")
 
-    return 'you goofed'
+    return 'you goofed, likely error in input data'
