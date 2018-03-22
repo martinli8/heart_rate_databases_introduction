@@ -14,13 +14,10 @@ def userCreation():
         heart_rate = r["heart_rate"]
     except:
         return 'Input data error! Make sure you have the correct fields'
-
-    if not isinstance(user_email,str):
+    if not isinstance(user_email, str):
         return "Email input is not a string"
-
-    if not isinstance(user_age,int):
+    if not isinstance(user_age, int):
         return "User age is not an int"
-
     if heart_rate is str:
         return "Heart rate is a str! Please input a numerical"
 
@@ -57,14 +54,13 @@ def interval_average():
         time = r["heart_rate_average_since"]
     except:
         return 'Input data error! Make sure you have the correct fields'
-
-    if not isinstance(user_email,str):
+    if not isinstance(user_email, str):
         return "Email input is not a string"
-
     try:
         datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
     except:
         return "invalid input time format!"
+
     try:
         hrAvg = interval_HR_calc(user_email, time)
         tachycardiaStatus = check_tachycardia(user_email, hrAvg)
