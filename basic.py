@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, request
-app = Flask(__name__)
-from main import *
 import datetime
 import models
+from flask import Flask, jsonify, request
+from main import *
+app = Flask(__name__)
 
 
 @app.route("/api/heart_rate", methods=["POST"])
@@ -16,7 +16,8 @@ def userCreation():
     try:
         add_heart_rate(user_email, heart_rate, time=datetime.datetime.now())
     except:
-        create_user(user_email, user_age, heart_rate, time=datetime.datetime.now())
+        create_user(user_email, user_age, heart_rate,
+                    time=datetime.datetime.now())
         return 'User is created'
     return 'User overlap detected, data is appended'
 
@@ -35,7 +36,8 @@ def averageHR(user_email):
     }
     return jsonify(averageHRJson)
 
-@app.route("/api/heart_rate/interval_average", methods = ['POST'])
+
+@app.route("/api/heart_rate/interval_average", methods=['POST'])
 def interval_average():
     r = request.get_json()
 
@@ -43,12 +45,11 @@ def interval_average():
     time = r["heart_rate_average_since"]
 
     try:
-        hrAvg = interval_HR_calc(user_email,time)
-        # totalAvg = average_HR_Calc(user_)
-        # tachycardiaStatus = check_tachycardia(user_email)
+        hrAvg = interval_HR_calc(user_email, time)
+        tachycardiaStatus = check_tachycardia(user_email, hrAvg)
         averageHrJson = {
-            "average hr since specified time": hrAvg
-            # "Tachycardia status":
+            "average hr since specified time": hrAvg,
+            "Tachycardia status": tachycardiaStatus
         }
         return jsonify(averageHrJson)
     except:
