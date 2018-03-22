@@ -42,13 +42,16 @@ def interval_average():
     user_email = r["user_email"]
     time = r["heart_rate_average_since"]
 
+    try:
+        hrAvg = interval_HR_calc(user_email,time)
+        # totalAvg = average_HR_Calc(user_)
+        # tachycardiaStatus = check_tachycardia(user_email)
+        averageHrJson = {
+            "average hr since specified time": hrAvg
+            # "Tachycardia status":
+        }
+        return jsonify(averageHrJson)
+    except:
+        print("No user exists or no data points after that time!")
 
-    hrAvg = interval_HR_calc(user_email,time)
-    averageHrJson = {
-        "average hr since specified time": hrAvg
-    }
-    return jsonify(averageHRJson )
-    # except:
-    #     print("No user exists or no data points after that time!")
-
-    # return 'ok'
+    return 'you goofed'
