@@ -96,6 +96,7 @@ def test_interval_hr():
     averageHROnInterval = 98
     assert averageHROnInterval == interval_HR_calc(testUser, timeSince)
 
+
 def test_check_tachycardia():
     testUser = "testUserEmail1@email.com"
     age = 47
@@ -110,7 +111,7 @@ def test_check_tachycardia():
     add_heart_rate(testUser, heart_rate_append2, timestamp_append2)
     timeSince = "2018-03-22 13:40:16.372339"
     averageHROnInterval = interval_HR_calc(testUser, timeSince)
-    assert check_tachycardia(testUser, averageHROnInterval) == False
+    assert check_tachycardia(testUser, averageHROnInterval) is False
 
     testUser = "testUserEmail1@email.com"
     age = 47
@@ -125,7 +126,7 @@ def test_check_tachycardia():
     add_heart_rate(testUser, heart_rate_append2, timestamp_append2)
     timeSince = "2018-03-22 13:40:16.372339"
     averageHROnInterval = interval_HR_calc(testUser, timeSince)
-    assert check_tachycardia(testUser, averageHROnInterval) == True
+    assert check_tachycardia(testUser, averageHROnInterval) is True
 
     testUser = "testUserEmail1@email.com"
     age = 12
@@ -140,7 +141,7 @@ def test_check_tachycardia():
     add_heart_rate(testUser, heart_rate_append2, timestamp_append2)
     timeSince = "2018-03-22 13:40:16.372339"
     averageHROnInterval = interval_HR_calc(testUser, timeSince)
-    assert check_tachycardia(testUser, averageHROnInterval) == False
+    assert check_tachycardia(testUser, averageHROnInterval) is False
 
     testUser = "testUserEmail1@email.com"
     age = 12
@@ -155,4 +156,4 @@ def test_check_tachycardia():
     add_heart_rate(testUser, heart_rate_append2, timestamp_append2)
     timeSince = "2018-03-22 13:40:16.372339"
     averageHROnInterval = interval_HR_calc(testUser, timeSince)
-    assert check_tachycardia(testUser, averageHROnInterval) == False
+    assert check_tachycardia(testUser, averageHROnInterval) is False

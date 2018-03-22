@@ -13,6 +13,7 @@ def add_heart_rate(email, heart_rate, time):
     :param heart_rate: number heart_rate measurement of the user
     :param time: the datetime of the heart_rate measurement
     """
+
     user = models.User.objects.raw({"_id": email}).first()
     user.heart_rate.append(heart_rate)
     # append the current time to the user's list of heart rate times
@@ -31,6 +32,7 @@ def create_user(email, age, heart_rate, time):
     :param heart_rate: number initial heart_rate of this new user
     :param time: datetime of the initial heart rate measurement
     """
+
     # primaryKeySearch = {
     #     "_id":email
     #     }
@@ -48,8 +50,9 @@ def print_user(email):
     """
     Prints the user with the specified email
     :param email: str email of the user of interest
-    :return:
+    :returns: user data with all heart rate measurements
     """
+
     user = models.User.objects.raw({"_id": email}).first()
     print(user.email)
     print(user.heart_rate)
@@ -62,6 +65,12 @@ def print_user(email):
 
 
 def average_HR_Calc(email):
+    """
+    Prints the average heart rate
+    :param email: str email of the user of interest
+    :returns: average heart rate
+    """
+
     import statistics as s
     user = models.User.objects.raw({"_id": email}).first()
     hrList = user.heart_rate
@@ -70,6 +79,13 @@ def average_HR_Calc(email):
 
 
 def interval_HR_calc(email, time):
+    """
+    Prints the average heart rate since a certain time
+    :param email: str email of the user of interest
+    :param time: time since to calculate HR from
+    :returns: average heart rate over a time
+    """
+
     user = models.User.objects.raw({"_id": email}).first()
     hrTimeList = user.heart_rate_times
     hrList = user.heart_rate
@@ -85,6 +101,12 @@ def interval_HR_calc(email, time):
 
 
 def check_tachycardia(email, intervalAvgHR):
+    """
+    With given data checks if user is tachycardic
+    :param email: str email of the user of interest
+    :param intervalAvgHR: time since for interval for tachycardic check
+    :returns: whether or not user is tachycardic, true for yes false for no
+    """
     user = models.User.objects.raw({"_id": email}).first()
     if (user.age > 18 and intervalAvgHR > 100):
         return True
