@@ -84,9 +84,9 @@ def interval_HR_calc(email, time):
 # }
 
 
-def check_tachycardia(email, totalAvgHR):
+def check_tachycardia(email, intervalAvgHR):
     user = models.User.objects.raw({"_id": email}).first()
-    if (user.age > 18 and totalAvgHR > 100):
+    if (user.age > 18 and intervalAvgHR > 100):
         return True
     return False
 

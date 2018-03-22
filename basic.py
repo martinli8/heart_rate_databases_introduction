@@ -19,7 +19,7 @@ def userCreation():
         create_user(user_email, user_age, heart_rate,
                     time=datetime.datetime.now())
         return 'User is created'
-    return 'User overlap detected, data is appended'
+    return 'User already exists, data is appended'
 
 
 @app.route("/api/heart_rate/<user_email>", methods=["GET"])
