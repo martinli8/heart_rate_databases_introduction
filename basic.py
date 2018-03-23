@@ -13,13 +13,13 @@ def userCreation():
         user_age = r["user_age"]
         heart_rate = r["heart_rate"]
     except:
-        return 'Input data error! Make sure you have the correct fields'
+        return 'Input data error! Make sure you have the correct fields', 400
     if not isinstance(user_email, str):
-        return "Email input is not a string"
+        return "Email input is not a string", 400
     if not isinstance(user_age, int):
-        return "User age is not an int"
+        return "User age is not an int", 400
     if heart_rate is str:
-        return "Heart rate is a str! Please input a numerical"
+        return "Heart rate is a str! Please input a numerical", 400
 
     try:
         add_heart_rate(user_email, heart_rate, time=datetime.datetime.now())
@@ -53,13 +53,13 @@ def interval_average():
         user_email = r["user_email"]
         time = r["heart_rate_average_since"]
     except:
-        return 'Input data error! Make sure you have the correct fields'
+        return 'Input data error! Make sure you have the correct fields', 400
     if not isinstance(user_email, str):
-        return "Email input is not a string"
+        return "Email input is not a string", 400
     try:
         datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
     except:
-        return "invalid input time format!"
+        return "invalid input time format!", 400
 
     try:
         hrAvg = interval_HR_calc(user_email, time)
@@ -71,5 +71,6 @@ def interval_average():
         return jsonify(averageHrJson)
     except:
         print("No user exists or no data points after that time!")
+        return "No user exists or no data points after that time", 400
 
     return 'you goofed, likely error in input data'
