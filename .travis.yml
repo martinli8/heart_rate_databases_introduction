@@ -5,8 +5,7 @@
     "pip install -r requirements.txt"
   ],
   "script": [
-    "pytest -v --pep8",
-    "pytest --verbose"
+    "pytest -v --pep8"
   ],
   "group": "stable",
   "dist": "trusty",
