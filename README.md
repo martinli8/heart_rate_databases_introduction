@@ -22,5 +22,10 @@ connect("mongodb://vcm-0000.vm.duke.edu:27017/heart_rate_app") # open up connect
 once your database is running and your connection string is set, you can run the webserver by running `basic.py` after activating your `virtualenv` and installing all the dependencies listed in `requirements.txt`.
 
 ```
+pip install -r requirements.txt
+```
+
+
+```
 FLASK_APP=basic.py flask run
 ```
